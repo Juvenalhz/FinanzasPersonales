@@ -1,4 +1,5 @@
-import React, { createContext } from "react";
+import React, { createContext, useReducer } from "react";
+import { cashReducer } from "./cashReducer";
 
 //definir que informacion tendre 
 export interface CashState {
@@ -38,7 +39,8 @@ export const cashInitialState: CashState = {
 
 //como lucira el context
 export interface cashContextProps {
-  cashs : CashState
+  cashs : CashState,
+  addCuenta: (cuentaNueva: CashState) => void 
 }
 
 //creacion de context
@@ -49,9 +51,18 @@ export const CashContext = createContext ({} as cashContextProps);
 
 export const CashProvider = ( {children} : any ) => {
 
+  const [cashState, dispatch] = useReducer(cashReducer, cashInitialState);
+
+  const addCuenta = (cuentaNueva : CashState) => {
+
+    dispatch({type:'addCuenta', payload: cuentaNueva})
+  }
+  
+
   return (
     <CashContext.Provider value={{
-      cashs : cashInitialState
+      cashs : cashState,
+      addCuenta
     }}>
       {children}
     </CashContext.Provider>
