@@ -1,10 +1,10 @@
 
-import React from 'react'
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Avatar, Card, Divider, Header, Tab } from 'react-native-elements'
+import React, { useContext } from 'react'
+import { ScrollView, View } from 'react-native'
+
 import { Cards } from '../components/Cards';
 import { Headers } from '../components/Headers';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { CashContext, cuenta } from '../context/cashContext/CashContext';
 
 export const Inicio = () => {
 
@@ -71,6 +71,8 @@ export const Inicio = () => {
     }
   ]
 
+  const {cashs} = useContext(CashContext)
+
   return (
 
     <>
@@ -79,9 +81,9 @@ export const Inicio = () => {
         <Headers titulo={'Inicio'} />
 
         <ScrollView>
-          <Cards data={cash} titulo={'Cash'}/>
-          <Cards data={porCobrar}  titulo={'Cuentas por Cobrar'}/>
-          <Cards data={Inversiones}  titulo={'Inversiones'}/>
+          <Cards data={cashs.cuentas} titulo={'Cash'}/>
+          {/* <Cards data={porCobrar}  titulo={'Cuentas por Cobrar'}/>
+          <Cards data={Inversiones}  titulo={'Inversiones'}/> */}
         </ScrollView>
 
 
