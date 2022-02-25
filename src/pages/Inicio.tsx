@@ -71,7 +71,7 @@ export const Inicio = () => {
     }
   ]
 
-  const {cashs} = useContext(CashContext)
+  const {cashs} = useContext(CashContext);
 
   return (
 
@@ -81,7 +81,7 @@ export const Inicio = () => {
         <Headers titulo={'Inicio'} />
 
         <ScrollView>
-          <Cards data={cashs.cuentas} titulo={'Cash'}/>
+          <Cards data={cashs.cuentas} titulo={'Cash'} />
           {/* <Cards data={porCobrar}  titulo={'Cuentas por Cobrar'}/>
           <Cards data={Inversiones}  titulo={'Inversiones'}/> */}
         </ScrollView>

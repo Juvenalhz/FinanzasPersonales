@@ -18,16 +18,7 @@ const App = () => {
       <NavigationContainer >
         <CashProvider>
           <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveBackgroundColor: '#5DC1B9' }}>
-            <Tab.Screen name="Inicio" component={Inicio} options={{
-              tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-                iconName = ''
-                // You can return any component that you like here!
-                return <Ionicons name={iconName} size={size} />;
-              },
-              tabBarActiveTintColor: 'tomato',
-              tabBarInactiveTintColor: 'gray',
-            }} />
+            <Tab.Screen name="Inicio" component={Inicio} />
             <Tab.Screen name="Cash" component={Cash} />
             <Tab.Screen name="Movimientos" component={Movimientos} />
             <Tab.Screen name="Por Cobrar" component={PorCobrar} />
