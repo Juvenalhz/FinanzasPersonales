@@ -3,13 +3,13 @@ import { cashReducer } from "./cashReducer";
 
 //definir que informacion tendre 
 export interface CashState {
-    cuentas: cuenta []
+    cuentas: cuenta[]
 }
 
 export interface cuenta {
-     id: number,
+     id?: number,
      nombre: string,
-     disponible: number,
+     disponible:  number,
      moneda: string
 }
 

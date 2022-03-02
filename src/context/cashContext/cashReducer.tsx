@@ -11,7 +11,7 @@ export const cashReducer = (state: CashState, action: cashAction) : CashState =>
             
             return {
                 ...state,
-                cuentas : action.payload.cuentas
+                cuentas : [...state.cuentas, action.payload.cuentas[0]]
             }
     
         default:

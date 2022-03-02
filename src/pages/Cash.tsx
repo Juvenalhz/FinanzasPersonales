@@ -11,52 +11,92 @@ export const Cash = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const [nuevaCuenta, setnuevaCuenta] = useState<CashState>()
 
-  const [nuevaData, setnuevaData] = useState<cuenta>()
- 
+
+  const [nuevaData, setnuevaData] = useState<cuenta>({
+    id: 0,
+    nombre: '',
+    moneda: 'Bs',
+    disponible: 0
+  })
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const toggleOverlay = () => {
     setVisible(!visible);
+    setnuevaData({id: 0,
+      nombre: '',
+      moneda: 'Bs',
+      disponible: 0})
   };
 
+  const ordenando = (e: string) => {
+    setnuevaData({ ...nuevaData, nombre: e })
+  }
+
+  const aggCuenta = () => {
+
+    addCuenta({cuentas:[nuevaData, {...nuevaData, id: (Math.random() * 10) + 1}]});
+
+    setnuevaData({id: 0,
+    nombre: '',
+    moneda: 'Bs',
+    disponible: 0})
+
+    setVisible(!visible);
+  }
+
+  const montoDisponible = (e : string) => {
+
+    //cuando el valor introducido es vacio agrega cero
+    if (e == '') {
+      setnuevaData({ ...nuevaData, disponible: parseInt('0 ') })
+    } else setnuevaData({ ...nuevaData, disponible: parseInt(e) })
+  }
+  const modificarCuenta = (cuenta: cuenta) => {
+
+    //cuando el valor introducido es vacio agrega cero
+    setnuevaData(cuenta);
+    setVisible(!visible);
+
+  }
+  
 
   return (
     <>
 
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={{ width: '90%', height: '60%', borderRadius: 20, justifyContent: 'center' }}>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={{ width: '90%', height: '65%', borderRadius: 20, justifyContent: 'center' }}>
         <ScrollView >
           <Text style={styles.textPrimary}>Registro de Cuenta</Text>
           <View style={{ marginHorizontal: 20 }} >
-            <Input 
-              placeholder='Nombre de Cuenta' onChange={value => setnuevaData( {...nuevaData?, [nombre] : value} )} autoCompleteType={undefined}  />
-            <Input 
-            placeholder='Monto Disponible'  autoCompleteType={undefined} />
+            <Input
+              label='Nombre de Cuenta' value={nuevaData.nombre} onChangeText={(e: string) => ordenando(e)} autoCompleteType={undefined} />
+            <Input label='Monto Disponible'
+               autoCompleteType={undefined} value={nuevaData.disponible.toString()} onChangeText={(e: string) =>montoDisponible(e) } />
             {/* <Input
               placeholder='Tipo de Cuenta' autoCompleteType={undefined} /> */}
-            <ButtonGroup 
-            selectedButtonStyle={{backgroundColor:'#5DC1B9'}}
-            buttonStyle={{borderRadius:20}}
+            <ButtonGroup
+              selectedButtonStyle={{ backgroundColor: '#5DC1B9' }}
+              buttonStyle={{ borderRadius: 20 }}
               buttons={['Bs', '$']}
               selectedIndex={selectedIndex}
               onPress={(value) => {
                 setSelectedIndex(value);
-                
+                console.log(selectedIndex);
+                setnuevaData({ ...nuevaData, moneda: value == 1 ? '$' : 'Bs' })
+
               }}
-              containerStyle={{ marginBottom: 20, borderRadius:20 }}
+              containerStyle={{ marginBottom: 20, borderRadius: 20 }}
             />
+            {/* <Text>{JSON.stringify(nuevaData)}</Text> */}
           </View>
 
           <TouchableOpacity style={{
             width: '70%', height: '10%', backgroundColor: '#5DC1B9',
             marginVertical: 30, borderRadius: 20, justifyContent: 'center', alignItems: 'center',
             marginHorizontal: 15, alignSelf: 'center'
-          }} onPress= {() => {
-
-            //addCuenta(nuevaCuenta)
-          }}><Text style={{ color: 'white', fontSize: 18 }}>Registrar</Text></TouchableOpacity>
+          }} onPress={ () => aggCuenta()
+          }><Text style={{ color: 'white', fontSize: 18 }}>Registrar</Text></TouchableOpacity>
         </ScrollView>
       </Overlay>
 
@@ -65,7 +105,9 @@ export const Cash = () => {
       <ScrollView style={{ flex: 0.9, marginHorizontal: 25, marginVertical: 20 }}>
 
         {cashs.cuentas.map((cuenta: cuenta) =>
+        <TouchableOpacity  key={cuenta.id} onPress={() => modificarCuenta(cuenta)}>
           <Cardsinfo cuenta={cuenta} key={cuenta.id} />
+        </TouchableOpacity>
         )}
 
 
